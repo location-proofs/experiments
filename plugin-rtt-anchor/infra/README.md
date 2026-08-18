@@ -44,22 +44,39 @@ relies on.
 
 ## Baseline jitter
 
-Scheduling overshoot, measured 2026-08-18 over 500 one-millisecond sleeps.
-Jitter lands inside the measurement, so this is the noise floor the estimator has
-to work against.
+Scheduling overshoot, measured over 500 one-millisecond sleeps. Jitter lands
+inside the measurement, so this is the noise floor the estimator has to work
+against.
 
-| Host | min | p50 | p90 | p99 | max |
-|---|---|---|---|---|---|
-| `xo-server` | 25 us | 78 us | 98 us | 927 us | 1952 us |
-| `geobeat-ingest` | 20 us | 79 us | 140 us | 1188 us | 2626 us |
+Both hosts were sampled twice on 2026-08-18, several hours apart, under very
+different load. `xo-server` was remediated between the two runs — its root
+filesystem had been full, with `apport` crash-looping at 79% CPU.
 
-At `c/2`, one microsecond is about 150 metres. So the floor costs roughly 3 km
-and a p99 excursion roughly 180 km. Taking minima over a burst is what makes the
-floor rather than the tail the operative figure — which is the entire argument
-for the estimator, and the thing §1.1 quantifies.
+| Host | 1-min load | min | p50 | p90 | p99 | max |
+|---|---|---|---|---|---|---|
+| `xo-server` | 4.74 | 25 us | 78 us | 98 us | 927 us | 1952 us |
+| `xo-server` | 0.45 | 25 us | 99 us | 141 us | 899 us | 1818 us |
+| `geobeat-ingest` | 4.09 | 20 us | 79 us | 140 us | 1188 us | 2626 us |
+| `geobeat-ingest` | 8.87 | 32 us | 91 us | 116 us | 201 us | 944 us |
 
-Hypervisor steal time was 0.0% on both hosts, so oversubscription at the
-Hetzner layer is not a factor.
+At `c/2`, one microsecond is about 150 metres. So the floor costs roughly 3 to
+5 km and a p99 excursion anywhere from 30 to 180 km.
+
+**Load did not predict jitter in either direction.** `xo-server` shed a factor of
+ten in load and its median got slightly worse; `geobeat-ingest` doubled its load
+and its p99 improved six-fold. The tail moved unpredictably across a twenty-fold
+swing in load between hosts.
+
+The floor did not. It stayed between 20 and 32 microseconds across every run —
+which is the number the minimum estimator actually consumes, and is a preliminary
+point in favour of co-tenancy being tolerable.
+
+Treat that as a hint rather than a result. It is four uncontrolled samples of 500
+sleeps, and sleep overshoot is a proxy for the scheduling behaviour that matters
+rather than a measurement of it. Settling it is what §1.3 is for.
+
+Hypervisor steal time was 0.0% on both hosts in both runs, so oversubscription at
+the Hetzner layer is not a factor.
 
 ## Host requirements
 
