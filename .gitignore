@@ -1,0 +1,22 @@
+# Private keys. An Ed25519 signing key committed here is an identity anyone can
+# use to be measured in your place. Never relax this.
+*-key.json
+key.json
+
+# Compiled plugin binaries. Cross-compiled per run; provenance belongs in
+# RUN.md, not in the tree.
+anchor
+attester
+*.test
+
+# Analysis environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Raw captures under data/ ARE committed — they are the evidence. Do not add
+# data/ here.
