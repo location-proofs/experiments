@@ -99,7 +99,10 @@ the Hetzner layer is not a factor.
 `hap-gpu` is a bare-metal workstation and was essentially idle when surveyed
 (1-min load 0.08), so unlike the pair above it can serve as a quiet-host
 baseline. It also carries the GPU for the eventual binding work, though that is
-out of scope for this phase — here it is only the attester host.
+out of scope for this phase — here it is only the attester host. A full survey
+of the machine — hardware, software, shared-use conventions, and the finding
+that it offers no hardware root of trust — is in
+[`hap-cluster.md`](hap-cluster.md); note it is node1 of a larger cluster.
 
 `hap-server` has a single vCPU. That is enough for anchor duty — signing and
 verifying at burst rates is tens of microseconds per pair — but it matters for
