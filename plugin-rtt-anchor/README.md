@@ -20,19 +20,25 @@ shared-cluster survey of the Cambridge attester host.
 
 | # | Name | Settles | Status |
 |---|---|---|---|
-| 001 | [burst-convergence](001-burst-convergence/) | §1.1 How many probes does a burst need? | Scaffolded |
-| — | burst-spacing | §1.2 Does burst spacing change what you learn? | Planned |
-| — | host-jitter | §1.3 How much of the residual is our own scheduler? | Planned |
-| — | floor-drift | §1.4 Does the floor drift, and on what timescale? | Planned |
-| — | signature-cost | §2.1 What does each signature scheme cost in metres? | Planned |
+| 001 | [host-jitter](001-host-jitter/) | §1.3 How much of the residual is our own scheduler? | Prompted |
+| 002 | [signature-cost](002-signature-cost/) | §2.1 What does Ed25519 cost in metres? (baseline) | Prompted |
+| 003 | [local-segment](003-local-segment/) | What does host-to-internet-edge contribute? | Prompted |
+| 004 | [burst-convergence](004-burst-convergence/) | §1.1 How many probes does a burst need? | Prompted |
+| 005 | [burst-spacing](005-burst-spacing/) | §1.2 Does burst spacing change what you learn? | Prompted |
+| 006 | [floor-drift](006-floor-drift/) | §1.4 Does the floor drift, and on what timescale? | Prompted |
+| 007 | [signing-placement](007-signing-placement/) | Where can the nonce signature happen, at what cost, with what security? | Prompted |
+| 008 | [gpu-load](008-gpu-load/) | Timing and challenge availability under GPU training load | Prompted |
 | — | pqc-packet-size | §2.2 Post-quantum signatures may not fit in a datagram | Planned |
 | — | path-inflation | §4.2 How stable is the path-inflation ratio? | Planned |
-| — | gpu-load | Turnaround timing and challenge availability under GPU training load | Planned |
 | — | gpu-attestation | `docs/gpu-binding.md` — cost of the slow loop | Planned |
 
 Numbers are assigned when an experiment is scaffolded, so planned rows carry
 none. Use `./new-experiment.sh plugin-rtt-anchor <slug>` from the repository
-root.
+root. Numbers 001–008 were re-baselined once on 2026-08-19, before any data
+existed, so the sequence builds inside-out (instrument → crypto → local network
+→ path → time → placement → load); they are frozen from here on. **Prompted**
+means the directory is scaffolded and carries a `PROMPT.md` — the design brief
+its `RUN.md` will be developed from — but the method is not yet designed.
 
 ## Notes on sequencing
 
