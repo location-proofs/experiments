@@ -67,4 +67,4 @@ comes from data rather than repeated runs.
   before the anchor itself becomes the bottleneck — the anchor's turnaround is
   inside the measured window too.
 - How to fold in the timestamp-source analysis once the plugin exports both
-  receive stamps (see `../research-program.md`, demoted questions).
+  receive stamps (see `../README.md`, the unslotted questions).

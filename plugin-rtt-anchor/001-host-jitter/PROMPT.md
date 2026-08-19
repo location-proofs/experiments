@@ -25,7 +25,7 @@ tail, and its sensitivity to load. It aims to settle §1.3 of the plugin's
 
 - The protocol and the field to analyze: the anchor times its own reply-0-tx to
   probe-1-rx and signs the interval (`anchor_measured_rtt_ns` in the attester's
-  JSONL). See `../research-program.md` and the plugin's `docs/protocol.md`.
+  JSONL). See `../README.md` and the plugin's `docs/protocol.md`.
 - Loopback packets never touch the NIC — they turn around inside the kernel.
   So this experiment does NOT measure NIC/driver/interrupt costs; those belong
   to 003-local-segment. Say so in the RUN.md so nobody over-reads the result.

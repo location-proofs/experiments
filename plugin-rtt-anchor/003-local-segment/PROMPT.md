@@ -30,7 +30,7 @@ that segment, closing the gap between 001's floor and 004's path numbers.
   switch?) is unknown. John will supply an inventory; the design should state
   per option what becomes measurable.
 - Loopback bypasses the NIC entirely; that is the boundary between 001 and
-  this experiment (`../research-program.md`).
+  this experiment (`../README.md`).
 - The measurement tool of record is the anchor/attester pair itself, which
   needs a Linux KVM-or-bare-metal reflector for `SO_TIMESTAMPNS`
   (`../infra/README.md` § Host requirements). A LAN host that can run the
@@ -58,4 +58,4 @@ that segment, closing the gap between 001's floor and 004's path numbers.
   simply be recorded. Needs investigation.
 - Whether kernel timestamping behaves differently across loopback, LAN, and
   WAN paths in ways that confound the subtraction (ties into the demoted
-  timestamp-source question; see `../research-program.md`).
+  timestamp-source question; see `../README.md`).

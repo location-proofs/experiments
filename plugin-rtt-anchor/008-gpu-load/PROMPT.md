@@ -32,7 +32,7 @@ questions:
    even mean here (stream priorities, MPS, preemption)? Needs investigation;
    do not assert CUDA scheduling behavior from memory.
 
-## Why it matters — the security frame (from `../research-program.md`)
+## Why it matters — the security frame (from `../README.md`)
 
 Soundness survives load: noise is one-sided, so a loaded host only ever looks
 farther away, and the max-distance bound holds. The risks are subtler, and the
