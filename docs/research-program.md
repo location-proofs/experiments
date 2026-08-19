@@ -1,7 +1,7 @@
 # Research program: the single good signed ping
 
 Phase document, opened 2026-08-19. Experiments live in numbered directories
-beside this file; open questions live in the plugin's
+under [`plugin-rtt-anchor/`](../plugin-rtt-anchor/); open questions live in the plugin's
 [`docs/open-questions.md`](https://github.com/location-proofs/plugin-rtt-anchor/blob/main/docs/open-questions.md),
 and the §-references below point there.
 
@@ -89,6 +89,34 @@ the true floor is stable across the window; a millisecond of route drift reads
 as 150 km of apparent movement. Twenty pairs every fifteen minutes for a week,
 unattended. Deliverable: the maximum useful measurement window.
 
+**gpu-load (planned, unnumbered).** The class of machine this method most wants
+to locate is a GPU host that is actually working — and that is the state hardest
+to measure in. Training does not only occupy the GPUs: it loads CPU cores with
+data loading and kernel launches, contends for memory and PCIe bandwidth, and
+the attester's turnaround — scheduler wake-up, parse, sign — sits on exactly
+those cores, inside the anchor-measured window. Two questions, measured
+separately. First, timing: how do the floor and the tail of the turnaround move
+as the machine steps from idle to saturated? The attester host has five
+independently addressable GPUs, so load can be stepped in controlled increments
+(the first increment lands as an extra condition in 002's matrix; the full sweep
+is its own experiment). Second, availability: what fraction of challenges
+complete within timeout during sustained training, and how does the effective
+probe budget shrink?
+
+The security question this opens is not soundness — noise is one-sided, so a
+loaded host can only ever look *farther away* than it is, and the max-distance
+bound survives. The risks are subtler. If challenges degrade or fail under
+load, honest evidence clusters in idle windows, and a verifier faces a choice
+between sparse, prover-timed evidence — exactly the cherry-picking surface
+§3.1 names — and rejecting honest busy machines outright. Load also becomes a
+deniable way to dodge measurement: "we were training" and "we chose not to
+answer" produce the same evidence stream, so load-dependent failure hands an
+uncooperative operator plausible deniability. And for the eventual binding
+layer, the slow attestation loop contends with training far worse than the
+fast loop does, stretching key epochs and widening the gap the binding
+construction already has to manage. Quantifying the timing side is what makes
+these risks arguable in either direction.
+
 ## Sequencing
 
 002 runs first because it is cheap, local, and validates the entire pipeline —
@@ -111,9 +139,10 @@ with every term in metres.
 
 - **GPU binding.** Attaching the measurement to a specific GPU (via confidential
   computing attestation and an ephemeral in-enclave key) is the open problem the
-  plugin's `docs/gpu-binding.md` describes. Nothing in this phase touches it;
-  the attester host happens to carry a GPU, but here it is only a quiet
-  bare-metal box.
+  plugin's `docs/gpu-binding.md` describes. Nothing in this phase touches it —
+  and the current attester host cannot: consumer Ampere has no
+  confidential-computing support, confirmed in the machine survey. GPU *load*
+  is in scope (above); GPU *identity* is not.
 - **Time series and geofence semantics.** Everything in §6 — what a sequence of
   measurements means, completeness against cherry-picking (§3.1) — is
   downstream of knowing what one measurement is worth.
@@ -123,8 +152,12 @@ with every term in metres.
 ## Testbed
 
 Two host pairs, each with recorded ground truth — full details in
-[`infra/README.md`](infra/README.md). This phase runs on the newer pair: an
-attester in Cambridge (bare metal, quiet) and an anchor in Hetzner Helsinki,
-1,768 km apart, with a measured ICMP floor of 38.001 ms. The original
-Falkenstein–Helsinki pair remains in use for parallel work and is untouched by
-these experiments.
+[`infra/README.md`](../plugin-rtt-anchor/infra/README.md). This phase runs on
+the newer pair: an attester in Cambridge and an anchor in Hetzner Helsinki,
+1,768 km apart, with a measured ICMP floor of 38.001 ms. The attester is node1
+of a shared GPU cluster — bare metal, quiet at rest, with five power-capped
+RTX 3090s that make it a controllable load generator for the gpu-load work;
+the full machine survey is in
+[`infra/hap-cluster.md`](../plugin-rtt-anchor/infra/hap-cluster.md). The
+original Falkenstein–Helsinki pair remains in use for parallel work and is
+untouched by these experiments.

@@ -10,8 +10,10 @@ to close them.
 
 ## Testbed
 
-Two Hetzner anchors, Falkenstein and Helsinki. See [`infra/`](infra/) for
-provisioning and the coordinates we assert.
+Two pairs: the original Hetzner pair (Falkenstein–Helsinki) and the
+Cambridge–Helsinki pair added for the single-ping phase. See
+[`infra/`](infra/) for provisioning, the coordinates we assert, and the
+shared-cluster survey of the Cambridge attester host.
 
 ## Experiments
 
@@ -24,6 +26,7 @@ provisioning and the coordinates we assert.
 | — | signature-cost | §2.1 What does each signature scheme cost in metres? | Planned |
 | — | pqc-packet-size | §2.2 Post-quantum signatures may not fit in a datagram | Planned |
 | — | path-inflation | §4.2 How stable is the path-inflation ratio? | Planned |
+| — | gpu-load | Turnaround timing and challenge availability under GPU training load | Planned |
 | — | gpu-attestation | `docs/gpu-binding.md` — cost of the slow loop | Planned |
 
 Numbers are assigned when an experiment is scaffolded, so planned rows carry
