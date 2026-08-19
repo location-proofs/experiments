@@ -6,7 +6,8 @@ which produces round-trip-time evidence about where a machine is.
 What is unknown is recorded in that repository's
 [`docs/open-questions.md`](https://github.com/location-proofs/plugin-rtt-anchor/blob/main/docs/open-questions.md).
 Every question there ends with what would settle it. The experiments below exist
-to close them.
+to close them. The current phase — what a single good signed ping is worth —
+is framed in [`research-program.md`](research-program.md).
 
 ## Testbed
 

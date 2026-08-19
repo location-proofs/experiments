@@ -1,7 +1,7 @@
 # Research program: the single good signed ping
 
 Phase document, opened 2026-08-19. Experiments live in numbered directories
-under [`plugin-rtt-anchor/`](../plugin-rtt-anchor/); open questions live in the plugin's
+beside this file; open questions live in the plugin's
 [`docs/open-questions.md`](https://github.com/location-proofs/plugin-rtt-anchor/blob/main/docs/open-questions.md),
 and the §-references below point there.
 
@@ -152,12 +152,12 @@ with every term in metres.
 ## Testbed
 
 Two host pairs, each with recorded ground truth — full details in
-[`infra/README.md`](../plugin-rtt-anchor/infra/README.md). This phase runs on
+[`infra/README.md`](infra/README.md). This phase runs on
 the newer pair: an attester in Cambridge and an anchor in Hetzner Helsinki,
 1,768 km apart, with a measured ICMP floor of 38.001 ms. The attester is node1
 of a shared GPU cluster — bare metal, quiet at rest, with five power-capped
 RTX 3090s that make it a controllable load generator for the gpu-load work;
 the full machine survey is in
-[`infra/hap-cluster.md`](../plugin-rtt-anchor/infra/hap-cluster.md). The
+[`infra/hap-cluster.md`](infra/hap-cluster.md). The
 original Falkenstein–Helsinki pair remains in use for parallel work and is
 untouched by these experiments.
