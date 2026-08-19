@@ -1,8 +1,13 @@
 # Testbed
 
-Two anchors on Hetzner, roughly 1,350 km apart. The pair exists so that
-measurements can be scored against a known answer — the ground-truth distance is
-the point of this testbed, not the hosts themselves.
+Two host pairs, each with a known ground-truth distance so that measurements can
+be scored against a known answer — the ground-truth distance is the point of this
+testbed, not the hosts themselves.
+
+The original Hetzner pair (`xo-server` / `geobeat-ingest`) is documented first
+and is in active use by a collaborator. The second pair (`hap-gpu` /
+`hap-server`) was added 2026-08-19 for the single-good-ping benchmarking phase;
+new experiments run on it unless stated otherwise.
 
 ## Hosts
 
@@ -77,6 +82,53 @@ rather than a measurement of it. Settling it is what §1.3 is for.
 
 Hypervisor steal time was 0.0% on both hosts in both runs, so oversubscription at
 the Hetzner layer is not a factor.
+
+## Second pair: `hap-gpu` → `hap-server`
+
+| | `hap-gpu` | `hap-server` |
+|---|---|---|
+| Hostname | `testbed-node1` | `ubuntu-2gb-hel1-1` |
+| Site | Cambridge, UK | Hetzner `hel1`, near Helsinki |
+| Coordinates asserted | 52.20653, 0.12018 | 60.34329, 25.02972 |
+| Virtualization | bare metal | KVM |
+| CPU | Threadripper PRO 3945WX, 12c/24t | 1 vCPU, EPYC-Genoa |
+| Public IPv4 | none needed — NAT, outbound only | 37.27.183.180 |
+| Distribution | Ubuntu 26.04 | Ubuntu 26.04 |
+| Role | attester | anchor |
+
+`hap-gpu` is a bare-metal workstation and was essentially idle when surveyed
+(1-min load 0.08), so unlike the pair above it can serve as a quiet-host
+baseline. It also carries the GPU for the eventual binding work, though that is
+out of scope for this phase — here it is only the attester host.
+
+`hap-server` has a single vCPU. That is enough for anchor duty — signing and
+verifying at burst rates is tens of microseconds per pair — but it matters for
+loopback runs (§1.3): anchor and attester would compete for the same core while
+the sender busy-polls up to 15 ms per pair, so loopback figures from this host
+read as a contention-inflated worst case rather than a floor. The loopback
+baseline belongs on `hap-gpu`; the `hap-server` loopback run is kept for exactly
+that contrast.
+
+### Ground truth
+
+| | |
+|---|---|
+| Great-circle distance | 1,768 km |
+| Measured minimum RTT | 38.001 ms |
+| Provable bound at vacuum c | 5,696 km |
+| Ratio of bound to true distance | 3.22x |
+| Implied path velocity | 0.31c |
+
+Measured 2026-08-19 with 20 ICMP probes at 200 ms spacing, from `hap-gpu` to
+`37.27.183.180`. The spread was unusually tight — max − min under 1 ms, mdev
+0.188 ms — which suggests a stable, uncongested route and bodes well for the
+minimum estimator.
+
+The `hap-gpu` coordinates are self-asserted by its operator, who is standing
+next to it — the strongest assertion available, and still an assertion. The
+`hel1` coordinates here are a refinement of the dc-level guess used for
+`geobeat-ingest` above; the ±10 km caveat in the section below applies to the
+Hetzner end regardless.
 
 ## Host requirements
 
