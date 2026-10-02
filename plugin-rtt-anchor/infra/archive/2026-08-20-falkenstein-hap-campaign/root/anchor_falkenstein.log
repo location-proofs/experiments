@@ -1,0 +1,3 @@
+time=2026-08-20T10:26:42.872Z level=INFO msg="anchor listening" id=12a157c39a8a addr=0.0.0.0:8926 port=8926 public_key=12a157c39a8aa652ac4a6463ecab319fdeb746f0d82402da21aae21b60002f99 lat=50.2163 lng=8.451 allowed_attesters=3
+time=2026-08-20T10:27:12.875Z level=INFO msg="allowlist reloaded" allowed_attesters=3
+time=2026-08-20T11:06:10.061Z level=INFO msg="anchor shut down"
